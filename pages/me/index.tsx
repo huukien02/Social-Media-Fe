@@ -19,12 +19,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getDataUser, getDataUsers, uploadImage } from "../../redux/actions";
 import Head from "next/head";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import { isFriend } from "../../config";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 function Me() {
   const dispatch: AppDispatch = useDispatch();
@@ -162,7 +157,21 @@ function Me() {
                     type="file"
                     onChange={handleChangeFile}
                     id="fileInput"
+                    style={{ display: "none" }}
                   />
+                  <label
+                    htmlFor="fileInput"
+                    style={{
+                      display: "flex",
+                      marginLeft: 25,
+                      alignItems: "center",
+                    }}
+                  >
+                    <CloudUploadIcon
+                      sx={{ cursor: "pointer" }}
+                      color="primary"
+                    />
+                  </label>
                 </Box>
                 {previewImage && (
                   <Box>
@@ -181,14 +190,15 @@ function Me() {
                     color="primary"
                     fullWidth
                   >
-                    Up Load
+                    Update
                   </Button>
                 </Box>
               </Box>
             </Container>
           </Card>
         )}
-        <Box>
+
+        {/* <Box>
           <Typography sx={{ padding: 2 }} variant="h5" color="initial">
             <PeopleAltIcon fontSize="large" style={{ color: "#1877F2" }} />
           </Typography>
@@ -222,9 +232,9 @@ function Me() {
               </Paper>
             </Grid>
           ))}
-        </Box>
+        </Box> */}
 
-        <Box sx={{ marginTop: 3 }}>
+        {/* <Box sx={{ marginTop: 3 }}>
           <Typography sx={{ padding: 2 }} variant="h5" color="initial">
             <GroupAddIcon fontSize="large" style={{ color: "#1877F2" }} />
           </Typography>
@@ -262,7 +272,7 @@ function Me() {
               </Paper>
             </Grid>
           ))}
-        </Box>
+        </Box> */}
       </Box>
     </>
   );

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosRequestConfig } from "axios";
-import { generateAxiosConfig } from "../config";
+import { generateAxiosConfig, generateAxiosConfig2 } from "../config";
 
 export const getDataPosts = createAsyncThunk<any>(
   "api/get-posts",
@@ -18,24 +18,24 @@ export const getDataPosts = createAsyncThunk<any>(
   }
 );
 
-export const createPost = createAsyncThunk<any, { title: any; content: any }>(
-  "api/create-post",
-  async ({ title, content }, { rejectWithValue }) => {
-    try {
-      const config: AxiosRequestConfig = generateAxiosConfig();
-      const postData = { title, content };
-      const response = await axios.post<any>(
-        "http://localhost:3000/posts/create",
-        postData,
-        config
-      );
+export const createPost = createAsyncThunk<
+  any,
+  { title: any; content: any; image: any }
+>("api/create-post", async ({ title, content, image }, { rejectWithValue }) => {
+  try {
+    const config: AxiosRequestConfig = generateAxiosConfig();
+    const postData = { title, content, image };
+    const response = await axios.post<any>(
+      "http://localhost:3000/posts/create",
+      postData,
+      config
+    );
 
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data);
-    }
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(error.response?.data);
   }
-);
+});
 
 export const getDataUsers = createAsyncThunk<any>(
   "api/fetchUser",
@@ -94,8 +94,10 @@ export const postComment = createAsyncThunk<any, { id: any; comment: any }>(
   "api/create-comment",
   async ({ id, comment }, { rejectWithValue }) => {
     try {
-      const config: AxiosRequestConfig = generateAxiosConfig();
+      //  const config: AxiosRequestConfig = generateAxiosConfig();
+      const config: AxiosRequestConfig = generateAxiosConfig2();
       const postData = { postId: id, content: comment };
+      console.log(postData);
       const response = await axios.post<any>(
         "http://localhost:3000/comments/create",
         postData,
@@ -128,7 +130,7 @@ export const reactionPost = createAsyncThunk<any, { postId: any; type: any }>(
   }
 );
 
-export const sendMail = createAsyncThunk<any, { id: any; }>(
+export const sendMail = createAsyncThunk<any, { id: any }>(
   "api/send-mail",
   async ({ id }, { rejectWithValue }) => {
     try {

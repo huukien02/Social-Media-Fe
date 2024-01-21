@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { Box } from "@mui/material";
 import BackgroundSwitch from "../components/Toggle";
 import { useState } from "react";
+import Navbar from "../components/Navbar";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [background, setBackground] = useState("white");
@@ -14,6 +15,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
+      <Navbar />
       <Box sx={{ backgroundColor: background, height: "100%" }}>
         <BackgroundSwitch onToggle={handleToggle} />
         <Provider store={store}>

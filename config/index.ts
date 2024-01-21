@@ -5,8 +5,35 @@ export const MESSAGER_REGISTER_FAILED = "Register failed. Please try again.";
 export const MESSAGER_SENDMAIL_SUCCESS = "You have successfully Send mail!";
 export const MESSAGER_SENDMAIL_FAILED = "Send mail failed. Please try again.";
 export const icons = ["👍", "👎", "❤️", "😆", "😠", "😍"];
+export const STATUS = [
+  { id: 1, label: "Bỉ ổi", icon: "😏" },
+  { id: 2, label: "Đáng thương", icon: "🥹" },
+  { id: 3, label: "Cảm lạnh", icon: "🥶" },
+  { id: 4, label: "Okey", icon: "👌" },
+];
+export const findStatusById = (id: any) => {
+  const foundStatus = STATUS.find((status) => status.id == id);
+  if (foundStatus) {
+    return ` ${foundStatus.label}`;
+  }
+};
 
+export const findIconById = (id: any) => {
+  const foundStatus = STATUS.find((status) => status.id == id);
+  if (foundStatus) {
+    return ` ${foundStatus.icon}`;
+  }
+};
 export const generateAxiosConfig = () => {
+  return {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      token: `${localStorage.getItem("token")}`,
+    },
+  };
+};
+
+export const generateAxiosConfig2 = () => {
   return {
     headers: {
       "Content-Type": "application/json",
