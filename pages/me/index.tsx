@@ -4,28 +4,18 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Input,
-  Paper,
-} from "@mui/material";
+import { Avatar, Box, Button, Container, Input } from "@mui/material";
 import { AppDispatch } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getDataUser, getDataUsers, uploadImage } from "../../redux/actions";
 import Head from "next/head";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import NotFoundPage from "../../components/NotFoundPage";
 
 function Me() {
   const dispatch: AppDispatch = useDispatch();
-  const { dataUser, isUploadImage, dataUsers, error } = useSelector(
-    (state: any) => state
-  );
+  const { dataUser, isUploadImage } = useSelector((state: any) => state);
   const [previewImage, setPreviewImage] = useState<any>();
   const fileInputRef = useRef<any>(null);
   const [file, setFile] = useState<any>();
@@ -97,183 +87,193 @@ function Me() {
       <Head>
         <title>Profile</title>
       </Head>
-      <Box>
-        {dataUser && (
-          <Card
-            sx={{
-              textAlign: "center",
-              width: "30%",
-              marginLeft: "35%",
-            }}
-          >
-            <CardHeader
-              title={
-                <Typography variant="h4" color="primary">
-                  PROFILE
-                </Typography>
-              }
-            />
-            <CardContent>
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Avatar
-                  src={dataUser?.user?.avatar}
-                  style={{ width: 100, height: 100, marginBottom: 10 }}
-                  onClick={handleAvatarClick}
-                  sx={{ cursor: "pointer" }}
-                />
-                <Typography variant="body1" color="textPrimary">
-                  Username: <strong> {dataUser?.user?.username}</strong>
-                </Typography>
-                <Typography variant="body1" color="textPrimary">
-                  Email: <strong>{dataUser?.user?.email}</strong>
-                </Typography>
-                <Typography variant="body1" color="textPrimary">
-                  Posts: <strong>{dataUser?.user?.posts.length}</strong>
-                </Typography>
-              </Box>
-            </CardContent>
 
-            <Container sx={{ paddingTop: 4 }}>
-              <Typography
-                sx={{ textAlign: "center" }}
-                variant="h5"
-                color="initial"
-              >
-                Upload Avatar
-              </Typography>
-              <Box
-                sx={{
-                  "& > :not(style)": { m: 3, width: "20%", marginLeft: "40%" },
-                }}
-              >
-                <Box>
-                  <Input
-                    type="file"
-                    onChange={handleChangeFile}
-                    id="fileInput"
-                    style={{ display: "none" }}
+      {!dataUser ? (
+        <NotFoundPage />
+      ) : (
+        <Box>
+          {dataUser && (
+            <Card
+              sx={{
+                textAlign: "center",
+                width: "30%",
+                marginLeft: "35%",
+                marginTop: 5,
+              }}
+            >
+              <CardHeader
+                title={
+                  <Typography variant="h4" color="primary">
+                    PROFILE
+                  </Typography>
+                }
+              />
+              <CardContent>
+                <Box
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Avatar
+                    src={dataUser?.user?.avatar}
+                    style={{ width: 100, height: 100, marginBottom: 10 }}
+                    onClick={handleAvatarClick}
+                    sx={{ cursor: "pointer" }}
                   />
-                  <label
-                    htmlFor="fileInput"
-                    style={{
-                      display: "flex",
-                      marginLeft: 25,
-                      alignItems: "center",
-                    }}
-                  >
-                    <CloudUploadIcon
-                      sx={{ cursor: "pointer" }}
-                      color="primary"
-                    />
-                  </label>
+                  <Typography variant="body1" color="textPrimary">
+                    Username: <strong> {dataUser?.user?.username}</strong>
+                  </Typography>
+                  <Typography variant="body1" color="textPrimary">
+                    Email: <strong>{dataUser?.user?.email}</strong>
+                  </Typography>
+                  <Typography variant="body1" color="textPrimary">
+                    Posts: <strong>{dataUser?.user?.posts.length}</strong>
+                  </Typography>
                 </Box>
-                {previewImage && (
+              </CardContent>
+
+              <Container sx={{ paddingTop: 4 }}>
+                <Typography
+                  sx={{ textAlign: "center" }}
+                  variant="h5"
+                  color="initial"
+                >
+                  Upload Avatar
+                </Typography>
+                <Box
+                  sx={{
+                    "& > :not(style)": {
+                      m: 3,
+                      width: "20%",
+                      marginLeft: "40%",
+                    },
+                  }}
+                >
                   <Box>
-                    <img
-                      onClick={deleteImagePreview}
-                      src={previewImage}
-                      alt="Preview"
-                      style={{ maxWidth: "100%", maxHeight: "200px" }}
+                    <Input
+                      type="file"
+                      onChange={handleChangeFile}
+                      id="fileInput"
+                      style={{ display: "none" }}
                     />
+                    <label
+                      htmlFor="fileInput"
+                      style={{
+                        display: "flex",
+                        marginLeft: 25,
+                        alignItems: "center",
+                      }}
+                    >
+                      <CloudUploadIcon
+                        sx={{ cursor: "pointer" }}
+                        color="primary"
+                      />
+                    </label>
                   </Box>
-                )}
-                <Box>
-                  <Button
-                    onClick={handleUploadAvatar}
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                  >
-                    Update
-                  </Button>
+                  {previewImage && (
+                    <Box>
+                      <img
+                        onClick={deleteImagePreview}
+                        src={previewImage}
+                        alt="Preview"
+                        style={{ maxWidth: "100%", maxHeight: "200px" }}
+                      />
+                    </Box>
+                  )}
+                  <Box>
+                    <Button
+                      onClick={handleUploadAvatar}
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                    >
+                      Update
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-            </Container>
-          </Card>
-        )}
+              </Container>
+            </Card>
+          )}
 
-        {/* <Box>
-          <Typography sx={{ padding: 2 }} variant="h5" color="initial">
-            <PeopleAltIcon fontSize="large" style={{ color: "#1877F2" }} />
-          </Typography>
-          {dataUser?.friends.map((item: any) => (
-            <Grid item key={item.friend.id} xs={12}>
-              <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
-                <Card>
-                  <CardHeader
-                    avatar={
-                      <Avatar
-                        src={item.friend.avatar}
-                        alt={item.friend.username}
-                      />
-                    }
-                    title={
-                      <Box sx={{ display: "flex" }}>
-                        <Box> {item.friend.username}</Box>
-                        <Box
-                          sx={{
-                            marginTop: "-2px",
-                            marginLeft: 1,
-                            cursor: "pointer",
-                          }}
-                        >
-                          <IndeterminateCheckBoxIcon style={{ color: "red" }} />
-                        </Box>
-                      </Box>
-                    }
-                  />
-                </Card>
-              </Paper>
-            </Grid>
-          ))}
-        </Box> */}
+          {/* <Box>
+         <Typography sx={{ padding: 2 }} variant="h5" color="initial">
+           <PeopleAltIcon fontSize="large" style={{ color: "#1877F2" }} />
+         </Typography>
+         {dataUser?.friends.map((item: any) => (
+           <Grid item key={item.friend.id} xs={12}>
+             <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
+               <Card>
+                 <CardHeader
+                   avatar={
+                     <Avatar
+                       src={item.friend.avatar}
+                       alt={item.friend.username}
+                     />
+                   }
+                   title={
+                     <Box sx={{ display: "flex" }}>
+                       <Box> {item.friend.username}</Box>
+                       <Box
+                         sx={{
+                           marginTop: "-2px",
+                           marginLeft: 1,
+                           cursor: "pointer",
+                         }}
+                       >
+                         <IndeterminateCheckBoxIcon style={{ color: "red" }} />
+                       </Box>
+                     </Box>
+                   }
+                 />
+               </Card>
+             </Paper>
+           </Grid>
+         ))}
+       </Box> */}
 
-        {/* <Box sx={{ marginTop: 3 }}>
-          <Typography sx={{ padding: 2 }} variant="h5" color="initial">
-            <GroupAddIcon fontSize="large" style={{ color: "#1877F2" }} />
-          </Typography>
-          {dataUser?.confirm_friends.map((item: any) => (
-            <Grid item key={item.friend.id} xs={12}>
-              <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
-                <Card>
-                  <CardHeader
-                    avatar={
-                      <Avatar
-                        src={item.friend.avatar}
-                        alt={item.friend.username}
-                      />
-                    }
-                    title={
-                      <Box sx={{ display: "flex" }}>
-                        <Box> {item.friend.username}</Box>
-                        <Box
-                          sx={{
-                            marginTop: "-2px",
-                            marginLeft: 1,
-                            cursor: "pointer",
-                          }}
-                        >
-                          <CheckCircleIcon
-                            onClick={() => handleConfirmAddFriend(item.id)}
-                            style={{ color: "#1877F2" }}
-                          />
-                          <DeleteIcon style={{ color: "red" }} />
-                        </Box>
-                      </Box>
-                    }
-                  />
-                </Card>
-              </Paper>
-            </Grid>
-          ))}
-        </Box> */}
-      </Box>
+          {/* <Box sx={{ marginTop: 3 }}>
+         <Typography sx={{ padding: 2 }} variant="h5" color="initial">
+           <GroupAddIcon fontSize="large" style={{ color: "#1877F2" }} />
+         </Typography>
+         {dataUser?.confirm_friends.map((item: any) => (
+           <Grid item key={item.friend.id} xs={12}>
+             <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
+               <Card>
+                 <CardHeader
+                   avatar={
+                     <Avatar
+                       src={item.friend.avatar}
+                       alt={item.friend.username}
+                     />
+                   }
+                   title={
+                     <Box sx={{ display: "flex" }}>
+                       <Box> {item.friend.username}</Box>
+                       <Box
+                         sx={{
+                           marginTop: "-2px",
+                           marginLeft: 1,
+                           cursor: "pointer",
+                         }}
+                       >
+                         <CheckCircleIcon
+                           onClick={() => handleConfirmAddFriend(item.id)}
+                           style={{ color: "#1877F2" }}
+                         />
+                         <DeleteIcon style={{ color: "red" }} />
+                       </Box>
+                     </Box>
+                   }
+                 />
+               </Card>
+             </Paper>
+           </Grid>
+         ))}
+       </Box> */}
+        </Box>
+      )}
     </>
   );
 }

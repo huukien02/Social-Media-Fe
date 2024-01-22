@@ -13,31 +13,51 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../redux/store";
+import { getDataUser } from "../redux/actions";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { clearUserState } from "../redux/reducers";
 
 const pages = [
-  { label: "Home", path: "/" },
   { label: "Post", path: "/posts" },
   { label: "Profile", path: "/me" },
 ];
 
-const settings = [
-  { label: "Login", action: () => alert("Login") },
-  { label: "Logout", action: () => alert("Logout") },
-];
-
 function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const dispatch: AppDispatch = useDispatch();
+  const { dataUser } = useSelector((state: any) => state);
+  const [anchorElNav, setAnchorElNav] = useState<any>();
+  const [anchorElUser, setAnchorElUser] = useState<any>();
+  const router = useRouter();
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const settings = [
+    {
+      label: "Login",
+      action: () => {
+        router.push("/login");
+      },
+    },
+    {
+      label: "Logout",
+      action: () => {
+        dispatch(clearUserState());
+        localStorage.removeItem("token");
+        router.push("/login");
+      },
+    },
+  ];
+
+  useEffect(() => {
+    dispatch(getDataUser());
+  }, []);
+
+  const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget);
   };
 
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOpenUserMenu = (event: any) => {
     setAnchorElUser(event.currentTarget);
   };
 
@@ -70,7 +90,7 @@ function Navbar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            HOME
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -155,7 +175,7 @@ function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar src={dataUser?.user?.avatar} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -174,16 +194,19 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting.label}
-                  onClick={
-                    setting.action ? setting.action : handleCloseUserMenu
-                  }
-                >
-                  <Typography textAlign="center">{setting.label}</Typography>
+              {!dataUser ? (
+                <MenuItem key={settings[0].label} onClick={settings[0].action}>
+                  <Typography textAlign="center">
+                    {settings[0].label}
+                  </Typography>
                 </MenuItem>
-              ))}
+              ) : (
+                <MenuItem key={settings[1].label} onClick={settings[1].action}>
+                  <Typography textAlign="center">
+                    {settings[1].label}
+                  </Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>

@@ -3,15 +3,18 @@ import { Box, TextField, Button, Container, Typography } from "@mui/material";
 import axios from "axios";
 import LoginModal from "../../components/LoginModal";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const router = useRouter();
 
   const handleCloseModal = () => {
     setModalOpen(false);
+    window.location.assign("/");
   };
 
   const handleLogin = async () => {
@@ -43,7 +46,7 @@ function Login() {
       <Head>
         <title>Login</title>
       </Head>
-      <Container sx={{ width: "40%" }}>
+      <Container sx={{ width: "40%", marginTop: 5 }}>
         <Box>
           <Typography sx={{ textAlign: "center" }} variant="h5" color="initial">
             LOGIN
@@ -65,7 +68,7 @@ function Login() {
             variant="outlined"
             fullWidth
             value={username}
-            onChange={(e:any) => setUsername(e.target.value)}
+            onChange={(e: any) => setUsername(e.target.value)}
           />
           <TextField
             label="Password"
@@ -73,7 +76,7 @@ function Login() {
             variant="outlined"
             fullWidth
             value={password}
-            onChange={(e:any) => setPassword(e.target.value)}
+            onChange={(e: any) => setPassword(e.target.value)}
           />
           <Button variant="contained" color="primary" onClick={handleLogin}>
             Login

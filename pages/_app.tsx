@@ -15,10 +15,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Navbar />
       <Box sx={{ backgroundColor: background, height: "100%" }}>
-        <BackgroundSwitch onToggle={handleToggle} />
         <Provider store={store}>
+          <Navbar />
+          {/* <BackgroundSwitch onToggle={handleToggle} /> */}
           <Component {...pageProps} />
         </Provider>
       </Box>

@@ -43,6 +43,9 @@ const apiSlice = createSlice({
     clearSendMailState: (state) => {
       state.isSendMail = null;
     },
+    clearUserState: (state) => {
+      state.dataUser = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -160,5 +163,5 @@ const apiSlice = createSlice({
   },
 });
 
-export const { clearSendMailState } = apiSlice.actions;
+export const { clearSendMailState, clearUserState } = apiSlice.actions;
 export default apiSlice.reducer;
