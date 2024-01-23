@@ -130,18 +130,15 @@ export const reactionPost = createAsyncThunk<any, { postId: any; type: any }>(
   }
 );
 
-export const sendMail = createAsyncThunk<any, { id: any }>(
+export const sendMail = createAsyncThunk<any, { email: any }>(
   "api/send-mail",
-  async ({ id }, { rejectWithValue }) => {
+  async ({ email }, { rejectWithValue }) => {
     try {
-      const config: AxiosRequestConfig = generateAxiosConfig();
-      const postData = { id: id };
+      const postData = { email: email };
       const response = await axios.post<any>(
         "http://localhost:3000/users/send-email",
-        postData,
-        config
+        postData
       );
-
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data);

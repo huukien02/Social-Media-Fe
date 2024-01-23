@@ -10,11 +10,12 @@ function Login() {
   const [password, setPassword] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
-  const router = useRouter();
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    window.location.assign("/");
+    if (loginSuccess) {
+      window.location.assign("/");
+    }
   };
 
   const handleLogin = async () => {

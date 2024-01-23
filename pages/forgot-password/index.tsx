@@ -2,29 +2,24 @@ import {
   Box,
   Button,
   CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Paper,
   Typography,
+  TextField,
 } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import SendmailModal from "../../components/SendmailModel";
 import { AppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getDataUser, sendMail } from "../../redux/actions";
+import { sendMail } from "../../redux/actions";
 import { clearSendMailState } from "../../redux/reducers";
 import Head from "next/head";
 
 function ForgotPassword() {
   const dispatch: AppDispatch = useDispatch();
-  const { dataUser, isSendMail } = useSelector((state: any) => state);
+  const { isSendMail } = useSelector((state: any) => state);
 
   const [isSending, setIsSending] = useState(false);
-  const [id, setId] = useState();
+  const [email, setEmail] = useState<any>(null);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [sendmailSuccess, setSendmailSuccess] = useState(false);
@@ -35,28 +30,21 @@ function ForgotPassword() {
   };
 
   useEffect(() => {
-    const id = dataUser?.user.id;
-    setId(id);
-  }, [dataUser]);
-
-  useEffect(() => {
-    dispatch(getDataUser());
-  }, []);
-
-  useEffect(() => {
-    if (isSendMail) {
+    if (isSendMail?.status === 404 || isSendMail?.status === 200) {
       setIsPending(false);
       setIsSending(false);
-      setSendmailSuccess(true);
+      setSendmailSuccess(isSendMail.status === 200);
       setModalOpen(true);
+      setEmail(null);
       dispatch(clearSendMailState());
     }
   }, [isSendMail]);
 
   const handleForgotPassword = async () => {
     setIsPending(true);
-    dispatch(sendMail({ id: id }));
+    dispatch(sendMail({ email: email }));
   };
+
   return (
     <>
       <Head>
@@ -70,15 +58,21 @@ function ForgotPassword() {
           padding: 3,
           maxWidth: 400,
           margin: "auto",
-          marginTop: 50,
+          marginTop: 10,
         }}
       >
         <Box sx={{ padding: 5 }}>
-          <Typography variant="h6" color="initial">
-            Send Password your gmail
+          <Typography variant="h5" color="#1877F2">
+            Forgot password
           </Typography>
         </Box>
+        <TextField
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <Button
+          sx={{ marginTop: 3 }}
           variant="contained"
           color="primary"
           onClick={handleForgotPassword}

@@ -23,6 +23,7 @@ import { clearUserState } from "../redux/reducers";
 const pages = [
   { label: "Post", path: "/posts" },
   { label: "Profile", path: "/me" },
+  { label: "Forgot Password", path: "/forgot-password" },
 ];
 
 function Navbar() {
