@@ -1,9 +1,15 @@
 import { Box, Button, Container, TextField } from "@mui/material";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RegisterModal from "./RegisterModal";
+import { AppDispatch } from "../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { createUser } from "../redux/actions";
+import { clearIsCreateUserCsv } from "../redux/reducers";
 
 function FormRegister(props: any) {
+  const dispatch: AppDispatch = useDispatch();
+  const { isCreateUserCsv } = useSelector((state: any) => state);
   const { typeTab } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,37 +20,25 @@ function FormRegister(props: any) {
 
   const handleCloseModal = () => {
     setModalOpen(false);
+    if (regiterSuccess) {
+      window.location.assign("/login");
+    }
   };
 
-  const handleRegister = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/users/create",
-        {
-          username,
-          password,
-          email,
-        },
-        {
-          headers: {
-            token: localStorage.getItem("token"),
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const { status } = response.data;
-      if (status === 200) {
-        setUsername("");
-        setPassword("");
-        setEmail("");
-        setRegiterSuccessSuccess(true);
-      } else {
-        setRegiterSuccessSuccess(false);
-      }
+  useEffect(() => {
+    if (isCreateUserCsv) {
+      const isSuccess = isCreateUserCsv.status === 200;
+      setRegiterSuccessSuccess(isSuccess);
       setModalOpen(true);
-    } catch (error) {
-      console.error("Error:", error);
+      setUsername("");
+      setPassword("");
+      setEmail("");
+      dispatch(clearIsCreateUserCsv());
     }
+  }, [isCreateUserCsv]);
+
+  const handleRegister = () => {
+    dispatch(createUser({ username, password, email }));
   };
 
   return (

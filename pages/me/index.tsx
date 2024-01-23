@@ -65,22 +65,6 @@ function Me() {
     alert("Upload avatar");
   };
 
-  const handleConfirmAddFriend = async (idFriendConfirm: any) => {
-    const postData = { idFriendConfirm };
-    const response = await axios.post(
-      "http://localhost:3000/users/confirm/add-friend",
-      postData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          token: `${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    if (response.status == 201) {
-      setChange((prev: any) => !prev);
-    }
-  };
 
   return (
     <>
@@ -196,82 +180,6 @@ function Me() {
               </Container>
             </Card>
           )}
-
-          {/* <Box>
-         <Typography sx={{ padding: 2 }} variant="h5" color="initial">
-           <PeopleAltIcon fontSize="large" style={{ color: "#1877F2" }} />
-         </Typography>
-         {dataUser?.friends.map((item: any) => (
-           <Grid item key={item.friend.id} xs={12}>
-             <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
-               <Card>
-                 <CardHeader
-                   avatar={
-                     <Avatar
-                       src={item.friend.avatar}
-                       alt={item.friend.username}
-                     />
-                   }
-                   title={
-                     <Box sx={{ display: "flex" }}>
-                       <Box> {item.friend.username}</Box>
-                       <Box
-                         sx={{
-                           marginTop: "-2px",
-                           marginLeft: 1,
-                           cursor: "pointer",
-                         }}
-                       >
-                         <IndeterminateCheckBoxIcon style={{ color: "red" }} />
-                       </Box>
-                     </Box>
-                   }
-                 />
-               </Card>
-             </Paper>
-           </Grid>
-         ))}
-       </Box> */}
-
-          {/* <Box sx={{ marginTop: 3 }}>
-         <Typography sx={{ padding: 2 }} variant="h5" color="initial">
-           <GroupAddIcon fontSize="large" style={{ color: "#1877F2" }} />
-         </Typography>
-         {dataUser?.confirm_friends.map((item: any) => (
-           <Grid item key={item.friend.id} xs={12}>
-             <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
-               <Card>
-                 <CardHeader
-                   avatar={
-                     <Avatar
-                       src={item.friend.avatar}
-                       alt={item.friend.username}
-                     />
-                   }
-                   title={
-                     <Box sx={{ display: "flex" }}>
-                       <Box> {item.friend.username}</Box>
-                       <Box
-                         sx={{
-                           marginTop: "-2px",
-                           marginLeft: 1,
-                           cursor: "pointer",
-                         }}
-                       >
-                         <CheckCircleIcon
-                           onClick={() => handleConfirmAddFriend(item.id)}
-                           style={{ color: "#1877F2" }}
-                         />
-                         <DeleteIcon style={{ color: "red" }} />
-                       </Box>
-                     </Box>
-                   }
-                 />
-               </Card>
-             </Paper>
-           </Grid>
-         ))}
-       </Box> */}
         </Box>
       )}
     </>

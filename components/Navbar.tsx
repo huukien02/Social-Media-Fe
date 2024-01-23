@@ -41,10 +41,16 @@ function Navbar() {
       },
     },
     {
+      label: "Register",
+      action: () => {
+        router.push("/register");
+      },
+    },
+    {
       label: "Logout",
       action: () => {
-        dispatch(clearUserState());
         localStorage.removeItem("token");
+        dispatch(clearUserState());
         router.push("/login");
       },
     },
@@ -196,15 +202,28 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {!dataUser ? (
-                <MenuItem key={settings[0].label} onClick={settings[0].action}>
-                  <Typography textAlign="center">
-                    {settings[0].label}
-                  </Typography>
-                </MenuItem>
+                <>
+                  <MenuItem
+                    key={settings[0].label}
+                    onClick={settings[0].action}
+                  >
+                    <Typography textAlign="center">
+                      {settings[0].label}
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem
+                    key={settings[1].label}
+                    onClick={settings[1].action}
+                  >
+                    <Typography textAlign="center">
+                      {settings[1].label}
+                    </Typography>
+                  </MenuItem>
+                </>
               ) : (
-                <MenuItem key={settings[1].label} onClick={settings[1].action}>
+                <MenuItem key={settings[2].label} onClick={settings[2].action}>
                   <Typography textAlign="center">
-                    {settings[1].label}
+                    {settings[2].label}
                   </Typography>
                 </MenuItem>
               )}

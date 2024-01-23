@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   createPost,
+  createUser,
+  createUserFromCsv,
   getDataPosts,
   getDataUser,
   getDataUsers,
@@ -8,6 +10,7 @@ import {
   reactionPost,
   sendMail,
   uploadImage,
+  userLogin,
 } from "./actions";
 
 interface ApiState {
@@ -21,6 +24,8 @@ interface ApiState {
   isComment: null;
   isReaction: null;
   isSendMail: null;
+  isCreateUserCsv: null;
+  isUserLogin: null;
 }
 
 const initialState: ApiState = {
@@ -34,6 +39,8 @@ const initialState: ApiState = {
   isComment: null,
   isReaction: null,
   isSendMail: null,
+  isCreateUserCsv: null,
+  isUserLogin: null,
 };
 
 const apiSlice = createSlice({
@@ -45,6 +52,9 @@ const apiSlice = createSlice({
     },
     clearUserState: (state) => {
       state.dataUser = null;
+    },
+    clearIsCreateUserCsv: (state) => {
+      state.isCreateUserCsv = null;
     },
   },
   extraReducers: (builder) => {
@@ -159,9 +169,55 @@ const apiSlice = createSlice({
       .addCase(sendMail.rejected, (state: any, action: any) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+
+      /* Create User CSV */
+      .addCase(createUserFromCsv.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        createUserFromCsv.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.isCreateUserCsv = action.payload;
+        }
+      )
+      .addCase(createUserFromCsv.rejected, (state: any, action: any) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      /* Create User  */
+      .addCase(createUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createUser.fulfilled, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.isCreateUserCsv = action.payload;
+      })
+      .addCase(createUser.rejected, (state: any, action: any) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      /* Login User  */
+      .addCase(userLogin.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userLogin.fulfilled, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.isUserLogin = action.payload;
+      })
+      .addCase(userLogin.rejected, (state: any, action: any) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });
 
-export const { clearSendMailState, clearUserState } = apiSlice.actions;
+export const { clearSendMailState, clearUserState, clearIsCreateUserCsv } =
+  apiSlice.actions;
 export default apiSlice.reducer;

@@ -11,7 +11,7 @@ function Register() {
     setTabValue(newValue);
   };
   return (
-    <>
+    <Box sx={{ marginTop: 5 }}>
       <Head>
         <title>Register</title>
       </Head>
@@ -19,7 +19,7 @@ function Register() {
         <Typography
           sx={{ textAlign: "center", paddingBottom: 2 }}
           variant="h5"
-          color="initial"
+          color="#1877F2"
         >
           REGISTER
         </Typography>
@@ -34,7 +34,7 @@ function Register() {
         <FormRegister typeTab={tabValue} />
         <FileRegister typeTab={tabValue} />
       </Container>
-    </>
+    </Box>
   );
 }
 

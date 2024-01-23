@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, TextField, Button, Container, Typography } from "@mui/material";
 import axios from "axios";
 import LoginModal from "../../components/LoginModal";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { AppDispatch } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogin } from "../../redux/actions";
 
 function Login() {
+  const dispatch: AppDispatch = useDispatch();
+  const { isUserLogin } = useSelector((state: any) => state);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -18,18 +24,9 @@ function Login() {
     }
   };
 
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/auth/user/login",
-        {
-          username,
-          password,
-        }
-      );
-
-      const { status, isLogin, accessToken } = response.data;
-
+  useEffect(() => {
+    if (isUserLogin) {
+      const { status, isLogin, accessToken } = isUserLogin;
       if (status === 200 && isLogin && accessToken) {
         localStorage.setItem("token", accessToken);
         setLoginSuccess(true);
@@ -37,9 +34,11 @@ function Login() {
         setLoginSuccess(false);
       }
       setModalOpen(true);
-    } catch (error) {
-      console.error("Error:", error);
     }
+  }, [isUserLogin]);
+
+  const handleLogin = () => {
+    dispatch(userLogin({ username, password }));
   };
 
   return (

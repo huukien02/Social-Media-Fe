@@ -5,7 +5,7 @@ import IconList from "./IconList";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { Box, Grid, Tooltip } from "@mui/material";
 import axios from "axios";
-import { getDataPosts } from "../redux/actions";
+import { getDataPosts, reactionPost } from "../redux/actions";
 import { AppDispatch } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { icons, setCountReactions } from "../config";
@@ -13,7 +13,7 @@ import { icons, setCountReactions } from "../config";
 const IconButtonWithPopover = (props: any) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const { reactions, reactionsCount, postId } = props;
+  const { reactions, reactionsCount, postId, isReaction } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [change, setChange] = useState(false);
   const [uniqueTypes, setUniqueTypes] = useState<any>();
@@ -36,23 +36,8 @@ const IconButtonWithPopover = (props: any) => {
 
   const handleIconClick = async (selectedIcon: any) => {
     const reactionType = icons.indexOf(selectedIcon);
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/posts/reaction/${postId}/${reactionType}`,
-        {
-          headers: {
-            token: localStorage.getItem("token"),
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.status === 200) {
-        setChange((prev) => !prev);
-      }
-    } catch (error) {
-      console.error("Error making API request:", error);
-    }
-
+    dispatch(reactionPost({ postId, reactionType }));
+    setChange((prev) => !prev);
     handleClose();
   };
 

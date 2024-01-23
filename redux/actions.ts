@@ -2,6 +2,69 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosRequestConfig } from "axios";
 import { generateAxiosConfig, generateAxiosConfig2 } from "../config";
 
+export const userLogin = createAsyncThunk<
+  any,
+  { username: any; password: any }
+>("api/user-login", async ({ username, password }, { rejectWithValue }) => {
+  try {
+    const postData = { username, password };
+
+    const response = await axios.post<any>(
+      "http://localhost:3000/auth/user/login",
+      postData
+    );
+
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(error.response?.data);
+  }
+});
+
+export const createUser = createAsyncThunk<
+  any,
+  { username: any; password: any; email: any }
+>(
+  "api/create-user",
+  async ({ username, password, email }, { rejectWithValue }) => {
+    try {
+      const postData = { username, password, email };
+
+      const response = await axios.post<any>(
+        "http://localhost:3000/users/create",
+        postData
+      );
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export const createUserFromCsv = createAsyncThunk<any, { file: File }>(
+  "api/create-user-csv",
+  async ({ file }, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await axios.post<any>(
+        "http://localhost:3000/users/create/from-csv",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
 export const getDataPosts = createAsyncThunk<any>(
   "api/get-posts",
   async (_, { rejectWithValue }) => {
@@ -97,7 +160,6 @@ export const postComment = createAsyncThunk<any, { id: any; comment: any }>(
       //  const config: AxiosRequestConfig = generateAxiosConfig();
       const config: AxiosRequestConfig = generateAxiosConfig2();
       const postData = { postId: id, content: comment };
-      console.log(postData);
       const response = await axios.post<any>(
         "http://localhost:3000/comments/create",
         postData,
@@ -111,21 +173,23 @@ export const postComment = createAsyncThunk<any, { id: any; comment: any }>(
   }
 );
 
-export const reactionPost = createAsyncThunk<any, { postId: any; type: any }>(
+export const reactionPost = createAsyncThunk(
   "api/reaction-post",
-  async ({ id, type }: any, { rejectWithValue }) => {
+  async ({ postId, reactionType }: any, { rejectWithValue }) => {
     try {
-      const config: AxiosRequestConfig = generateAxiosConfig();
-      const postData = { postId: id, type: type };
-      const response = await axios.post<any>(
-        "http://localhost:3000/posts/reaction",
-        postData,
-        config
+      const response = await axios.get(
+        `http://localhost:3000/posts/reaction/${postId}/${reactionType}`,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+        }
       );
 
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data);
+      return rejectWithValue(error.message);
     }
   }
 );
