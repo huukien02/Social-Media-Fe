@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, TextField, Button, Container, Typography } from "@mui/material";
-import axios from "axios";
 import LoginModal from "../../components/LoginModal";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { AppDispatch } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../redux/actions";

@@ -13,6 +13,7 @@ import {
   InputAdornment,
   List,
   ListItem,
+  Pagination,
   Paper,
   TextField,
   Tooltip,
@@ -38,6 +39,7 @@ import Head from "next/head";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import NotFoundPage from "../../components/NotFoundPage";
+import { clearDataCommentPost } from "../../redux/reducers";
 
 function Posts() {
   const dispatch: AppDispatch = useDispatch();
@@ -52,6 +54,8 @@ function Posts() {
   const [previewImage, setPreviewImage] = useState<any>();
   const [showStatus, setShowStatus] = useState(false);
   const [status, setStatus] = React.useState<any>();
+  const [idCurrentPost, setIdCurrentPost] = useState<any>(null);
+  const [idPostShowComment, setIdPostShowComment] = useState<any>(null);
 
   useEffect(() => {
     setComment("");
@@ -60,6 +64,8 @@ function Posts() {
     setFile(null);
     setPreviewImage(null);
     setStatus(null);
+    setIdCurrentPost(null);
+    dispatch(clearDataCommentPost());
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -114,6 +120,15 @@ function Posts() {
     setStatus(status);
     setTitle(status.id);
     setShowStatus(false);
+  };
+
+  const handleChangeComment = (postId: any, comment: any) => {
+    setComment(comment);
+    setIdCurrentPost(postId);
+  };
+
+  const handleShowComment = (idPost: any) => {
+    setIdPostShowComment(idPost);
   };
 
   return (
@@ -272,8 +287,9 @@ function Posts() {
             <Container sx={{ marginTop: 4 }} maxWidth="md">
               <Grid container spacing={2}>
                 {dataPost?.list_post.map((post: any) => (
-                  <Grid item key={post.id} xs={12}>
+                  <Grid item key={post.id} xs={12} sx={{ marginTop: 5 }}>
                     <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
+                      {/* List Post */}
                       <Card>
                         <CardHeader
                           avatar={
@@ -310,147 +326,129 @@ function Posts() {
                           }
                         />
                         <CardContent>
-                          <Box>
-                            <Box
-                              sx={{
-                                paddingBottom: 3,
-                                paddingTop: 3,
-                              }}
-                            >
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                              >
-                                {post.content}
-                              </Typography>
-                            </Box>
-                          </Box>
+                          <Typography variant="body2" color="text.secondary">
+                            <strong>{post.content}</strong>
+                          </Typography>
+
                           {post?.image && (
-                            <Box
-                              sx={{
-                                borderRadius: "10px",
-                                textAlign: "center",
-                                overflow: "hidden",
-                                boxShadow: "0px 4px 18px rgba(0, 0, 0, 0.1)",
-                                paddingBottom: 3,
-                                paddingTop: 3,
+                            <img
+                              style={{
+                                maxWidth: "100%",
+                                height: "auto",
+                                objectFit: "cover",
                               }}
-                            >
-                              <img
-                                style={{
-                                  width: "200px",
-                                  height: "auto",
-                                  objectFit: "cover",
-                                }}
-                                src={post?.image}
-                                alt=""
-                              />
-                            </Box>
-                          )}
-                          <Box>
-                            <IconButtonWithPopover
-                              postId={post.id}
-                              reactions={post.reactions}
-                              reactionsCount={post.reactionsCount}
+                              src={post?.image}
+                              alt=""
                             />
-                          </Box>
+                          )}
                         </CardContent>
                       </Card>
-                      <Box sx={{ marginTop: 2 }}>
-                        <List>
-                          {post.comments?.map(
-                            (commnent: any, index: number) => (
-                              <React.Fragment key={commnent.id}>
-                                <ListItem>
-                                  <Avatar
-                                    src={commnent.user.avatar}
-                                    alt={commnent.user.username}
-                                    sx={{ marginRight: 1 }}
-                                  />
-                                  <Typography
-                                    sx={{ paddingBottom: 2, paddingTop: 2 }}
-                                    variant="body2"
-                                    color="text.secondary"
-                                  >
-                                    <strong>
-                                      {commnent.user.username}
-                                      {/* <small>
-                                  {isFriend(
-                                    commnent.user.id,
-                                    dataUser?.friends
-                                  ) && (
-                                    <div
-                                      style={{
-                                        display: "inline-block",
-                                        position: "relative",
-                                        top: 4,
-                                        left: 3,
-                                      }}
-                                    >
-                                      <PeopleIcon
-                                        fontSize="small"
-                                        style={{ color: "#1877F2" }}
-                                      />
-                                    </div>
-                                  )}
-                                </small> */}
-                                    </strong>
-
-                                    <span
-                                      style={{
-                                        color: "#111111",
-                                        borderRadius: "10px",
-                                        padding: 12,
-                                        backgroundColor: "lightgray",
-                                        marginLeft: "20px",
-                                      }}
-                                    >
-                                      {commnent.content}
-                                    </span>
-                                    <small
-                                      style={{
-                                        display: "float",
-                                        marginLeft: "10px",
-                                      }}
-                                    >
-                                      ({getFormattedTime(commnent.time)})
-                                    </small>
-                                  </Typography>
-                                </ListItem>
-                                {index < post.comments.length - 1 && (
-                                  <Divider />
-                                )}
-                              </React.Fragment>
-                            )
-                          )}
-                        </List>
-                      </Box>
-                      <Box sx={{ marginTop: 5 }}>
-                        <TextField
-                          label="Comment"
-                          variant="outlined"
-                          fullWidth
-                          sx={{
-                            marginBottom: 1,
-                            "& .MuiOutlinedInput-root": { borderRadius: 0 },
-                          }}
-                          onChange={(e: any) => setComment(e.target.value)}
-                          value={comment}
-                        />
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          sx={{ marginTop: 1 }}
-                          onClick={() => handlePostComment(post.id)}
-                        >
-                          Comment
+                      <IconButtonWithPopover
+                        postId={post.id}
+                        reactions={post.reactions}
+                        reactionsCount={post.reactionsCount}
+                      />
+                      {idPostShowComment != post.id ? (
+                        <Button onClick={() => handleShowComment(post.id)}>
+                          <small>Bình luận</small>
                         </Button>
-                      </Box>
+                      ) : (
+                        <Button onClick={() => handleShowComment(null)}>
+                          <small>Đóng</small>
+                        </Button>
+                      )}
+
+                      {idPostShowComment == post.id ? (
+                        <Box>
+                          {/* List Comment */}
+                          <Box>
+                            <List>
+                              {post.comments?.map(
+                                (commnent: any, index: number) => (
+                                  <React.Fragment key={commnent.id}>
+                                    <ListItem>
+                                      <Avatar
+                                        src={commnent.user.avatar}
+                                        alt={commnent.user.username}
+                                        sx={{ marginRight: 1 }}
+                                      />
+                                      <Typography
+                                        sx={{ paddingBottom: 2, paddingTop: 2 }}
+                                        variant="body2"
+                                        color="text.secondary"
+                                      >
+                                        <strong>
+                                          {commnent.user.username}
+                                        </strong>
+
+                                        <span
+                                          style={{
+                                            color: "#111111",
+                                            borderRadius: "10px",
+                                            padding: 12,
+                                            backgroundColor: "lightgray",
+                                            marginLeft: "20px",
+                                          }}
+                                        >
+                                          {commnent.content}
+                                        </span>
+                                        <small
+                                          style={{
+                                            display: "float",
+                                            marginLeft: "10px",
+                                          }}
+                                        >
+                                          ({getFormattedTime(commnent.time)})
+                                        </small>
+                                      </Typography>
+                                    </ListItem>
+                                    {index < post.comments.length - 1 && (
+                                      <Divider />
+                                    )}
+                                  </React.Fragment>
+                                )
+                              )}
+                            </List>
+                          </Box>
+
+                          {/* Input Comment */}
+                          <Box sx={{ marginTop: 1, height: "auto" }}>
+                            <TextField
+                              label="Comment"
+                              variant="outlined"
+                              fullWidth
+                              sx={{
+                                marginBottom: 1,
+                                "& .MuiOutlinedInput-root": { borderRadius: 0 },
+                              }}
+                              onChange={(e: any) =>
+                                handleChangeComment(post.id, e.target.value)
+                              }
+                              value={idCurrentPost == post.id ? comment : ""}
+                            />
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              sx={{ marginTop: 1 }}
+                              onClick={() => handlePostComment(post.id)}
+                            >
+                              Comment
+                            </Button>
+                          </Box>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
                     </Paper>
                   </Grid>
                 ))}
               </Grid>
             </Container>
+            <Box
+              sx={{ marginTop: 5, display: "flex", justifyContent: "center" }}
+            >
+              <Pagination count={10} color="primary" />
+            </Box>
           </Box>
         </>
       )}

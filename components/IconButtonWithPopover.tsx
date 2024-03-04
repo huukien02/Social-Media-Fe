@@ -51,6 +51,7 @@ const IconButtonWithPopover = (props: any) => {
                 title={reactionsCount[reaction.type]}
                 arrow
                 placement="top"
+                onClick={handleClick}
               >
                 <small style={{ fontSize: "20px", cursor: "pointer" }}>
                   {icons[reaction.type]}

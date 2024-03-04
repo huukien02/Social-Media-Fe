@@ -56,6 +56,9 @@ const apiSlice = createSlice({
     clearIsCreateUserCsv: (state) => {
       state.isCreateUserCsv = null;
     },
+    clearDataCommentPost: (state) => {
+      state.isComment = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -218,6 +221,10 @@ const apiSlice = createSlice({
   },
 });
 
-export const { clearSendMailState, clearUserState, clearIsCreateUserCsv } =
-  apiSlice.actions;
+export const {
+  clearSendMailState,
+  clearUserState,
+  clearIsCreateUserCsv,
+  clearDataCommentPost,
+} = apiSlice.actions;
 export default apiSlice.reducer;
