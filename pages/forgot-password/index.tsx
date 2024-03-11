@@ -54,25 +54,46 @@ function ForgotPassword() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
           padding: 3,
           maxWidth: 400,
           margin: "auto",
-          marginTop: 10,
+          marginTop: 20,
+          borderRadius: "20px",
+          background: "linear-gradient(to bottom, #353A5F  , #9EBAF3)",
         }}
       >
-        <Box sx={{ padding: 5 }}>
-          <Typography variant="h5" color="#1877F2">
-            Forgot password
+        <Box sx={{ paddingBottom: 2, color: "white", textAlign: "center" }}>
+          <Typography variant="h5" sx={{ fontFamily: "monospace" }}>
+            Forgot Password
           </Typography>
         </Box>
+        <span>Email</span>
         <TextField
-          label="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          sx={{
+            color: "white",
+            "& label": {
+              color: "white",
+            },
+            "& input": {
+              color: "white",
+            },
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "white",
+              },
+              "&:hover fieldset": {
+                borderColor: "white",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "white",
+              },
+            },
+          }}
         />
         <Button
-          sx={{ marginTop: 3 }}
+          sx={{ marginTop: 3, height: 40 }}
           variant="contained"
           color="primary"
           onClick={handleForgotPassword}

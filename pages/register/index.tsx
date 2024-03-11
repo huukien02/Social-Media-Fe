@@ -15,17 +15,32 @@ function Register() {
       <Head>
         <title>Register</title>
       </Head>
-      <Box>
-        <Typography
-          sx={{ textAlign: "center", paddingBottom: 2 }}
-          variant="h5"
-          color="#1877F2"
+
+      <Container
+        maxWidth="sm"
+        sx={{
+          background: "linear-gradient(to bottom, #353A5F  , #9EBAF3)",
+          borderRadius: "20px",
+          paddingBottom: 3,
+          paddingTop: 2,
+        }}
+      >
+        <Box>
+          <Typography
+            sx={{
+              textAlign: "center",
+              paddingBottom: 2,
+              fontFamily: "monospace",
+            }}
+            variant="h5"
+          >
+            REGISTER
+          </Typography>
+        </Box>
+        <AppBar
+          sx={{ backgroundColor: "white", borderRadius: "20px" }}
+          position="static"
         >
-          REGISTER
-        </Typography>
-      </Box>
-      <Container maxWidth="sm">
-        <AppBar sx={{ backgroundColor: "white" }} position="static">
           <Tabs value={tabValue} onChange={handleChangeTab} centered>
             <Tab label="Register Form" />
             <Tab label="Register File" />

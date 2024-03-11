@@ -31,7 +31,7 @@ function Home() {
             right: "0",
             padding: "8px",
             fontFamily: "monospace",
-            color: "#333",
+            color: "white",
             fontWeight: "bold",
           }}
         >

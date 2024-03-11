@@ -65,7 +65,6 @@ function Me() {
     alert("Upload avatar");
   };
 
-
   return (
     <>
       <Head>
@@ -83,11 +82,17 @@ function Me() {
                 width: "30%",
                 marginLeft: "35%",
                 marginTop: 5,
+                background: "linear-gradient(to bottom, #353A5F  , #9EBAF3)",
+                borderRadius: "20px",
               }}
             >
               <CardHeader
                 title={
-                  <Typography variant="h4" color="primary">
+                  <Typography
+                    variant="h4"
+                    color="white"
+                    sx={{ fontFamily: "monospace" }}
+                  >
                     PROFILE
                   </Typography>
                 }
@@ -106,13 +111,13 @@ function Me() {
                     onClick={handleAvatarClick}
                     sx={{ cursor: "pointer" }}
                   />
-                  <Typography variant="body1" color="textPrimary">
+                  <Typography variant="body1" color="white">
                     Username: <strong> {dataUser?.user?.username}</strong>
                   </Typography>
-                  <Typography variant="body1" color="textPrimary">
+                  <Typography variant="body1" color="white">
                     Email: <strong>{dataUser?.user?.email}</strong>
                   </Typography>
-                  <Typography variant="body1" color="textPrimary">
+                  <Typography variant="body1" color="white">
                     Posts: <strong>{dataUser?.user?.posts.length}</strong>
                   </Typography>
                 </Box>

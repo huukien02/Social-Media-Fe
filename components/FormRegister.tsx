@@ -7,6 +7,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { createUser } from "../redux/actions";
 import { clearIsCreateUserCsv } from "../redux/reducers";
 
+const styleInput = {
+  color: "white",
+  "& label": {
+    color: "white",
+  },
+  "& input": {
+    color: "white",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "white",
+    },
+    "&:hover fieldset": {
+      borderColor: "white",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "white",
+    },
+  },
+};
+
 function FormRegister(props: any) {
   const dispatch: AppDispatch = useDispatch();
   const { isCreateUserCsv } = useSelector((state: any) => state);
@@ -58,6 +79,7 @@ function FormRegister(props: any) {
           >
             <Box>
               <TextField
+                sx={styleInput}
                 label="Username"
                 variant="outlined"
                 fullWidth
@@ -67,6 +89,7 @@ function FormRegister(props: any) {
             </Box>
             <Box>
               <TextField
+                sx={styleInput}
                 label="Password"
                 type="password"
                 variant="outlined"
@@ -77,6 +100,7 @@ function FormRegister(props: any) {
             </Box>
             <Box>
               <TextField
+                sx={styleInput}
                 label="Email"
                 type="email"
                 variant="outlined"
@@ -90,6 +114,7 @@ function FormRegister(props: any) {
                 variant="contained"
                 color="primary"
                 onClick={handleRegister}
+                fullWidth
               >
                 Register
               </Button>

@@ -77,7 +77,13 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: "inherit",
+        color: "#1877F2",
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -172,7 +178,7 @@ function Navbar() {
                 href={page.path}
                 passHref
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ my: 2, color: "#1877F2", display: "block" }}
               >
                 {page.label}
               </Button>

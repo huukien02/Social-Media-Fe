@@ -141,7 +141,14 @@ function Posts() {
         <NotFoundPage />
       ) : (
         <>
-          <Box sx={{ marginTop: 5, paddingBottom: 5 }}>
+          <Box
+            sx={{
+              paddingTop: 5,
+              paddingBottom: 5,
+
+              backgroundImage: 'url("https://i.gifer.com/BXe0.gif")',
+            }}
+          >
             <Paper
               elevation={3}
               sx={{
@@ -336,6 +343,7 @@ function Posts() {
                                 maxWidth: "100%",
                                 height: "auto",
                                 objectFit: "cover",
+                                marginTop: "10px",
                               }}
                               src={post?.image}
                               alt=""

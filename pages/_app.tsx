@@ -2,26 +2,22 @@ import type { AppProps } from "next/app";
 import store from "../redux/store";
 import { Provider } from "react-redux";
 import { Box } from "@mui/material";
-import BackgroundSwitch from "../components/Toggle";
-import { useState } from "react";
 import Navbar from "../components/Navbar";
+import "../src/app/globals.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const [background, setBackground] = useState("white");
-
-  const handleToggle = () => {
-    setBackground((prev) => (prev === "white" ? "black" : "white"));
-  };
-
   return (
-    <>
-      <Box sx={{ backgroundColor: background, height: "100%" }}>
-        <Provider store={store}>
-          <Navbar />
-          {/* <BackgroundSwitch onToggle={handleToggle} /> */}
-          <Component {...pageProps} />
-        </Provider>
-      </Box>
-    </>
+    <Box
+      sx={{
+        backgroundImage: 'url("https://i.gifer.com/BXe0.gif")',
+        width: "100%",
+        height: "100vh",
+      }}
+    >
+      <Provider store={store}>
+        <Navbar />
+        <Component {...pageProps} />
+      </Provider>
+    </Box>
   );
 }

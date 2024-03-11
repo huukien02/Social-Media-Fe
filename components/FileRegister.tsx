@@ -52,38 +52,35 @@ function FileRegister(props: any) {
     <>
       {typeTab == 1 && (
         <Container>
-          <Box
-            sx={{ "& > :not(style)": { m: 3, width: "100%" }, marginTop: 5 }}
-          >
-            <Box>
-              <Input
-                style={{ display: "none" }}
-                id="fileInput"
-                type="file"
-                onChange={handleChangeFile}
-              />
-              <label
-                htmlFor="fileInput"
-                style={{
-                  display: "flex",
-                  marginLeft: 25,
-                  alignItems: "center",
-                }}
-              >
-                <CloudUploadIcon sx={{ cursor: "pointer" }} color="primary" />
-              </label>
-            </Box>
-            <Box>
-              <Button
-                onClick={handleCreateUser}
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                Register
-              </Button>
-            </Box>
+          <Box>
+            <Input
+              style={{ display: "none" }}
+              id="fileInput"
+              type="file"
+              onChange={handleChangeFile}
+            />
+            <label
+              htmlFor="fileInput"
+              style={{
+                display: "flex",
+                marginLeft: 25,
+                alignItems: "center",
+              }}
+            >
+              <CloudUploadIcon sx={{ cursor: "pointer" }} color="primary" />
+            </label>
           </Box>
+          <Box>
+            <Button
+              onClick={handleCreateUser}
+              variant="contained"
+              color="primary"
+              fullWidth
+            >
+              Register
+            </Button>
+          </Box>
+
           <RegisterModal
             open={modalOpen}
             onClose={handleCloseModal}

@@ -5,6 +5,26 @@ import Head from "next/head";
 import { AppDispatch } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../redux/actions";
+const styleInput = {
+  color: "white",
+  "& label": {
+    color: "white",
+  },
+  "& input": {
+    color: "white",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "white",
+    },
+    "&:hover fieldset": {
+      borderColor: "white",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "white",
+    },
+  },
+};
 
 function Login() {
   const dispatch: AppDispatch = useDispatch();
@@ -44,9 +64,20 @@ function Login() {
       <Head>
         <title>Login</title>
       </Head>
-      <Container sx={{ width: "40%", marginTop: 5 }}>
+      <Container
+        sx={{
+          borderRadius: "20px",
+          width: "40%",
+          marginTop: 10,
+          background: "linear-gradient(to bottom, #353A5F  , #9EBAF3)",
+        }}
+      >
         <Box>
-          <Typography sx={{ textAlign: "center" }} variant="h5" color="initial">
+          <Typography
+            sx={{ textAlign: "center", paddingTop: 2, fontFamily: "monospace" }}
+            variant="h5"
+            color="initial"
+          >
             LOGIN
           </Typography>
         </Box>
@@ -62,6 +93,7 @@ function Login() {
           }}
         >
           <TextField
+            sx={styleInput}
             label="Username"
             variant="outlined"
             fullWidth
@@ -69,6 +101,7 @@ function Login() {
             onChange={(e: any) => setUsername(e.target.value)}
           />
           <TextField
+            sx={styleInput}
             label="Password"
             type="password"
             variant="outlined"
@@ -76,7 +109,12 @@ function Login() {
             value={password}
             onChange={(e: any) => setPassword(e.target.value)}
           />
-          <Button variant="contained" color="primary" onClick={handleLogin}>
+          <Button
+            sx={{ height: 40 }}
+            variant="contained"
+            color="primary"
+            onClick={handleLogin}
+          >
             Login
           </Button>
         </Box>
