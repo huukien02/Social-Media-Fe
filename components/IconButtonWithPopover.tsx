@@ -3,12 +3,13 @@ import IconButton from "@mui/material/IconButton";
 import Popover from "@mui/material/Popover";
 import IconList from "./IconList";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { Box, Grid, Tooltip } from "@mui/material";
+import { Box, Button, Grid, Tooltip } from "@mui/material";
 import axios from "axios";
 import { getDataPosts, reactionPost } from "../redux/actions";
 import { AppDispatch } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { icons, setCountReactions } from "../config";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
 const IconButtonWithPopover = (props: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -61,9 +62,10 @@ const IconButtonWithPopover = (props: any) => {
           ))}
         </Grid>
       </Box>
-      <IconButton onClick={handleClick}>
-        <ThumbUpIcon />
-      </IconButton>
+      <Button onClick={handleClick}>
+        <ThumbUpOffAltIcon /> <small style={{ color: "gray" }}>Thích</small>
+      </Button>
+
       <Popover
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}

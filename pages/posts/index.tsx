@@ -40,6 +40,7 @@ import TouchAppIcon from "@mui/icons-material/TouchApp";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import NotFoundPage from "../../components/NotFoundPage";
 import { clearDataCommentPost } from "../../redux/reducers";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
 function Posts() {
   const dispatch: AppDispatch = useDispatch();
@@ -145,7 +146,6 @@ function Posts() {
             sx={{
               paddingTop: 5,
               paddingBottom: 5,
-
               backgroundImage: 'url("https://i.gifer.com/BXe0.gif")',
             }}
           >
@@ -235,7 +235,7 @@ function Posts() {
                             key={item.id}
                           >
                             <Typography variant="body1" color="initial">
-                              <small>
+                              <small style={{ color: "gray" }}>
                                 {item.label} {item.icon}
                               </small>
                             </Typography>
@@ -292,9 +292,14 @@ function Posts() {
               </Box>
             </Paper>
             <Container sx={{ marginTop: 4 }} maxWidth="md">
-              <Grid container spacing={2}>
+              <Grid
+                container
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+              >
                 {dataPost?.list_post.map((post: any) => (
-                  <Grid item key={post.id} xs={12} sx={{ marginTop: 5 }}>
+                  <Grid item key={post.id} xs={8} sx={{ marginTop: 5 }}>
                     <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
                       {/* List Post */}
                       <Card>
@@ -358,11 +363,12 @@ function Posts() {
                       />
                       {idPostShowComment != post.id ? (
                         <Button onClick={() => handleShowComment(post.id)}>
-                          <small>Bình luận</small>
+                          <ChatBubbleOutlineIcon />{" "}
+                          <small style={{ color: "gray" }}>Bình luận</small>
                         </Button>
                       ) : (
                         <Button onClick={() => handleShowComment(null)}>
-                          <small>Đóng</small>
+                          <small style={{ color: "gray" }}>Đóng</small>
                         </Button>
                       )}
 
@@ -453,9 +459,23 @@ function Posts() {
               </Grid>
             </Container>
             <Box
-              sx={{ marginTop: 5, display: "flex", justifyContent: "center" }}
+              sx={{
+                marginTop: 5,
+                display: "flex",
+                justifyContent: "center",
+                color: "white",
+              }}
             >
-              <Pagination count={10} color="primary" />
+              <Pagination
+                count={10}
+                color="secondary"
+                sx={{
+                  "& .MuiPaginationItem-page, & .MuiPaginationItem-ellipsis, & .MuiSvgIcon-root":
+                    {
+                      color: "white",
+                    },
+                }}
+              />
             </Box>
           </Box>
         </>
