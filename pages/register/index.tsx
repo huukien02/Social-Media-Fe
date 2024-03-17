@@ -4,6 +4,7 @@ import FormRegister from "../../components/FormRegister";
 import FileRegister from "../../components/FileRegister";
 import Head from "next/head";
 
+
 function Register() {
   const [tabValue, setTabValue] = useState(0);
 
@@ -19,7 +20,7 @@ function Register() {
       <Container
         maxWidth="sm"
         sx={{
-          background: "linear-gradient(to bottom, #353A5F  , #9EBAF3)",
+          background: "linear-gradient(to bottom, #005AA7  , #FFFDE4)",
           borderRadius: "20px",
           paddingBottom: 3,
           paddingTop: 2,

@@ -11,6 +11,8 @@ import { useSelector } from "react-redux";
 import { getDataUser, getDataUsers, uploadImage } from "../../redux/actions";
 import Head from "next/head";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import FilterIcon from "@mui/icons-material/Filter";
+
 import NotFoundPage from "../../components/NotFoundPage";
 
 function Me() {
@@ -20,13 +22,11 @@ function Me() {
   const fileInputRef = useRef<any>(null);
   const [file, setFile] = useState<any>();
 
-  const [change, setChange] = useState<any>(false);
-
   useEffect(() => {
     fileInputRef.current = document.getElementById("fileInput");
     dispatch(getDataUser());
     dispatch(getDataUsers());
-  }, [dispatch, isUploadImage, change]);
+  }, [dispatch, isUploadImage]);
 
   useEffect(() => {
     deleteImagePreview();
@@ -61,10 +61,6 @@ function Me() {
     setPreviewImage(null);
   };
 
-  const handleAvatarClick = () => {
-    alert("Upload avatar");
-  };
-
   return (
     <>
       <Head>
@@ -81,63 +77,17 @@ function Me() {
                 textAlign: "center",
                 width: "30%",
                 marginLeft: "35%",
-                marginTop: 5,
-                background: "linear-gradient(to bottom, #353A5F  , #9EBAF3)",
+                marginTop: 10,
+                background: "linear-gradient(to bottom, #005AA7  , #FFFDE4)",
                 borderRadius: "20px",
               }}
             >
-              <CardHeader
-                title={
-                  <Typography
-                    variant="h4"
-                    color="white"
-                    sx={{ fontFamily: "monospace" }}
-                  >
-                    PROFILE
-                  </Typography>
-                }
-              />
               <CardContent>
                 <Box
                   style={{
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                  }}
-                >
-                  <Avatar
-                    src={dataUser?.user?.avatar}
-                    style={{ width: 100, height: 100, marginBottom: 10 }}
-                    onClick={handleAvatarClick}
-                    sx={{ cursor: "pointer" }}
-                  />
-                  <Typography variant="body1" color="white">
-                    Username: <strong> {dataUser?.user?.username}</strong>
-                  </Typography>
-                  <Typography variant="body1" color="white">
-                    Email: <strong>{dataUser?.user?.email}</strong>
-                  </Typography>
-                  <Typography variant="body1" color="white">
-                    Posts: <strong>{dataUser?.user?.posts.length}</strong>
-                  </Typography>
-                </Box>
-              </CardContent>
-
-              <Container sx={{ paddingTop: 4 }}>
-                <Typography
-                  sx={{ textAlign: "center" }}
-                  variant="h5"
-                  color="initial"
-                >
-                  Upload Avatar
-                </Typography>
-                <Box
-                  sx={{
-                    "& > :not(style)": {
-                      m: 3,
-                      width: "20%",
-                      marginLeft: "40%",
-                    },
                   }}
                 >
                   <Box>
@@ -155,32 +105,62 @@ function Me() {
                         alignItems: "center",
                       }}
                     >
-                      <CloudUploadIcon
+                      <Avatar
+                        src={dataUser?.user?.avatar}
+                        style={{ width: 100, height: 100, marginBottom: 10 }}
                         sx={{ cursor: "pointer" }}
-                        color="primary"
                       />
                     </label>
                   </Box>
+
+                  <Typography variant="body1">
+                    Username: <strong> {dataUser?.user?.username}</strong>
+                  </Typography>
+                  <Typography variant="body1">
+                    Email: <strong>{dataUser?.user?.email}</strong>
+                  </Typography>
+                  <Typography variant="body1">
+                    Posts: <strong>{dataUser?.user?.posts.length}</strong>
+                  </Typography>
+                </Box>
+              </CardContent>
+
+              <Container sx={{ paddingTop: 4 }}>
+                <Box
+                  sx={{
+                    "& > :not(style)": {
+                      m: 3,
+                      width: "20%",
+                      marginLeft: "40%",
+                    },
+                  }}
+                >
                   {previewImage && (
                     <Box>
                       <img
                         onClick={deleteImagePreview}
                         src={previewImage}
                         alt="Preview"
-                        style={{ maxWidth: "100%", maxHeight: "200px" }}
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          maxWidth: "100%",
+                          maxHeight: "200px",
+                          cursor: "pointer",
+                        }}
                       />
+                      <Box>
+                        <Button
+                          onClick={handleUploadAvatar}
+                          variant="contained"
+                          color="primary"
+                          fullWidth
+                        >
+                          Update
+                        </Button>
+                      </Box>
                     </Box>
                   )}
-                  <Box>
-                    <Button
-                      onClick={handleUploadAvatar}
-                      variant="contained"
-                      color="primary"
-                      fullWidth
-                    >
-                      Update
-                    </Button>
-                  </Box>
                 </Box>
               </Container>
             </Card>

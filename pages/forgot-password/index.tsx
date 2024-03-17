@@ -45,6 +45,12 @@ function ForgotPassword() {
     dispatch(sendMail({ email: email }));
   };
 
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter") {
+      handleForgotPassword();
+    }
+  };
+
   return (
     <>
       <Head>
@@ -59,7 +65,7 @@ function ForgotPassword() {
           margin: "auto",
           marginTop: 20,
           borderRadius: "20px",
-          background: "linear-gradient(to bottom, #353A5F  , #9EBAF3)",
+          background: "linear-gradient(to bottom, #005AA7  , #FFFDE4)",
         }}
       >
         <Box sx={{ paddingBottom: 2, color: "white", textAlign: "center" }}>
@@ -69,6 +75,7 @@ function ForgotPassword() {
         </Box>
         <span>Email</span>
         <TextField
+          onKeyDown={handleKeyDown}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           sx={{

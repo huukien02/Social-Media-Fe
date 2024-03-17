@@ -8,10 +8,10 @@ import { userLogin } from "../../redux/actions";
 const styleInput = {
   color: "white",
   "& label": {
-    color: "white",
+    color: "skyblue",
   },
   "& input": {
-    color: "white",
+    color: "gray",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
@@ -59,6 +59,12 @@ function Login() {
     dispatch(userLogin({ username, password }));
   };
 
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <>
       <Head>
@@ -67,9 +73,9 @@ function Login() {
       <Container
         sx={{
           borderRadius: "20px",
-          width: "40%",
+          width: "30%",
           marginTop: 10,
-          background: "linear-gradient(to bottom, #353A5F  , #9EBAF3)",
+          background: "linear-gradient(to left, #005AA7  , #FFFDE4)",
         }}
       >
         <Box>
@@ -99,6 +105,7 @@ function Login() {
             fullWidth
             value={username}
             onChange={(e: any) => setUsername(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           <TextField
             sx={styleInput}
@@ -108,6 +115,7 @@ function Login() {
             fullWidth
             value={password}
             onChange={(e: any) => setPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           <Button
             sx={{ height: 40 }}
