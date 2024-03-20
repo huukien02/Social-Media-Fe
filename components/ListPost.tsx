@@ -24,12 +24,12 @@ import { AppDispatch } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { getDataPosts, postComment } from "../redux/actions";
 import { useSelector } from "react-redux";
-import { clearDataCommentPost } from "../redux/reducers";
+import { clearDataReactionPost } from "../redux/reducers";
 
-function ListPost() {
+function ListPost({ dataPropsPost }: any) {
   const fileInputRef = useRef<any>(null);
   const dispatch: AppDispatch = useDispatch();
-  const { isCreatePost, isComment, dataPost } = useSelector(
+  const { isCreatePost, isComment } = useSelector(
     (state: any) => state
   );
 
@@ -39,12 +39,12 @@ function ListPost() {
 
   useEffect(() => {
     dispatch(getDataPosts());
+    dispatch(clearDataReactionPost());
   }, [dispatch, isCreatePost, isComment]);
 
   useEffect(() => {
     setComment("");
     setIdCurrentPost(null);
-    dispatch(clearDataCommentPost());
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -65,7 +65,7 @@ function ListPost() {
     <>
       <Container sx={{ marginTop: 4 }} maxWidth="md">
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-          {dataPost?.list_post.map((post: any) => (
+          {dataPropsPost?.map((post: any) => (
             <Grid item key={post.id} xs={8} sx={{ marginTop: 5 }}>
               <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
                 {/* List Post */}
@@ -73,8 +73,8 @@ function ListPost() {
                   <CardHeader
                     avatar={
                       <Avatar
-                        src={post.user.avatar}
-                        alt={post.user.username}
+                        src={post?.user?.avatar}
+                        alt={post?.user?.username}
                         sx={{ width: 45, height: 45 }}
                       />
                     }
@@ -87,8 +87,8 @@ function ListPost() {
                             fontFamily: "monospace",
                           }}
                         >
-                          {post.user.username}
-                          {post.title && (
+                          {post?.user?.username}
+                          {post?.title && (
                             <small style={{ fontWeight: 300, marginLeft: 10 }}>
                               đang cảm thấy
                               <Tooltip
@@ -102,12 +102,16 @@ function ListPost() {
                             </small>
                           )}
                         </Typography>
-                        <small>{getFormattedTime(post.time)}</small>
+                        <small>{getFormattedTime(post.created_at)}</small>
                       </Box>
                     }
                   />
                   <CardContent>
-                    <Typography sx={{ fontFamily: "monospace" }} variant="body2" color="text.secondary">
+                    <Typography
+                      sx={{ fontFamily: "monospace" }}
+                      variant="body2"
+                      color="text.secondary"
+                    >
                       <strong>{post.content}</strong>
                     </Typography>
 
@@ -150,8 +154,8 @@ function ListPost() {
                           <React.Fragment key={commnent.id}>
                             <ListItem>
                               <Avatar
-                                src={commnent.user.avatar}
-                                alt={commnent.user.username}
+                                src={commnent?.user?.avatar}
+                                alt={commnent?.user?.username}
                                 sx={{ marginRight: 1 }}
                               />
                               <Typography
@@ -159,7 +163,7 @@ function ListPost() {
                                 variant="body2"
                                 color="text.secondary"
                               >
-                                <strong>{commnent.user.username}</strong>
+                                <strong>{commnent?.user?.username}</strong>
 
                                 <span
                                   style={{
@@ -178,7 +182,7 @@ function ListPost() {
                                     marginLeft: "10px",
                                   }}
                                 >
-                                  ({getFormattedTime(commnent.time)})
+                                  ({getFormattedTime(commnent.created_at)})
                                 </small>
                               </Typography>
                             </ListItem>

@@ -10,11 +10,12 @@ import { AppDispatch } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { icons, setCountReactions } from "../config";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import { clearDataReactionPost } from "../redux/reducers";
 
 const IconButtonWithPopover = (props: any) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const { reactions, reactionsCount, postId, isReaction } = props;
+  const { reactions, reactionsCount, postId } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [change, setChange] = useState(false);
   const [uniqueTypes, setUniqueTypes] = useState<any>();

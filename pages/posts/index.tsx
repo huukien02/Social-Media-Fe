@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDataUser } from "../../redux/actions";
+import { getDataPosts, getDataUser } from "../../redux/actions";
 import { AppDispatch } from "../../redux/store";
 import Head from "next/head";
 import NotFoundPage from "../../components/NotFoundPage";
@@ -16,8 +16,9 @@ const style = {
 
 function Posts() {
   const dispatch: AppDispatch = useDispatch();
-  const { dataUser } = useSelector((state: any) => state);
+  const { dataUser, dataPost } = useSelector((state: any) => state);
   useEffect(() => {
+    dispatch(getDataPosts());
     dispatch(getDataUser());
   }, []);
 
@@ -32,7 +33,7 @@ function Posts() {
       ) : (
         <Box sx={style}>
           <FormCreatePost dataPropsUser={dataUser} />
-          <ListPost />
+          <ListPost dataPropsPost={dataPost?.list_post} />
         </Box>
       )}
     </>

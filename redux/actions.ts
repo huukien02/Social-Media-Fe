@@ -10,7 +10,7 @@ export const userLogin = createAsyncThunk<
     const postData = { username, password };
 
     const response = await axios.post<any>(
-      "http://localhost:3000/auth/user/login",
+      `${process.env.URL_BE}/auth/user/login`,
       postData
     );
 
@@ -30,7 +30,7 @@ export const createUser = createAsyncThunk<
       const postData = { username, password, email };
 
       const response = await axios.post<any>(
-        "http://localhost:3000/users/create",
+        `${process.env.URL_BE}/users/create`,
         postData
       );
 
@@ -49,7 +49,7 @@ export const createUserFromCsv = createAsyncThunk<any, { file: File }>(
       formData.append("file", file);
 
       const response = await axios.post<any>(
-        "http://localhost:3000/users/create/from-csv",
+        `${process.env.URL_BE}/users/create/from-csv`,
         formData,
         {
           headers: {
@@ -71,7 +71,7 @@ export const getDataPosts = createAsyncThunk<any>(
     try {
       const config: AxiosRequestConfig = generateAxiosConfig();
       const response = await axios.get<any[]>(
-        "http://localhost:3000/posts/",
+        `${process.env.URL_BE}/posts`,
         config
       );
       return response.data;
@@ -89,7 +89,7 @@ export const createPost = createAsyncThunk<
     const config: AxiosRequestConfig = generateAxiosConfig();
     const postData = { title, content, image };
     const response = await axios.post<any>(
-      "http://localhost:3000/posts/create",
+      `${process.env.URL_BE}/posts/create`,
       postData,
       config
     );
@@ -106,7 +106,7 @@ export const getDataUsers = createAsyncThunk<any>(
     try {
       const config: AxiosRequestConfig = generateAxiosConfig();
       const response = await axios.get<any[]>(
-        "http://localhost:3000/users",
+        `${process.env.URL_BE}/users`,
         config
       );
       return response.data;
@@ -122,7 +122,7 @@ export const getDataUser = createAsyncThunk<any>(
     try {
       const config: AxiosRequestConfig = generateAxiosConfig();
       const response = await axios.get<any[]>(
-        "http://localhost:3000/users/detail",
+        `${process.env.URL_BE}/users/detail`,
         config
       );
       return response.data;
@@ -139,7 +139,7 @@ export const uploadImage = createAsyncThunk(
     formData.append("file", file);
 
     const response = await axios.post(
-      "http://localhost:3000/users/upload-image",
+      `${process.env.URL_BE}/users/upload-image`,
       formData,
       {
         headers: {
@@ -161,7 +161,7 @@ export const postComment = createAsyncThunk<any, { id: any; comment: any }>(
       const config: AxiosRequestConfig = generateAxiosConfig2();
       const postData = { postId: id, content: comment };
       const response = await axios.post<any>(
-        "http://localhost:3000/comments/create",
+        `${process.env.URL_BE}/comments/create`,
         postData,
         config
       );
@@ -178,7 +178,7 @@ export const reactionPost = createAsyncThunk(
   async ({ postId, reactionType }: any, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/posts/reaction/${postId}/${reactionType}`,
+        `${process.env.URL_BE}/posts/reaction/${postId}/${reactionType}`,
         {
           headers: {
             token: localStorage.getItem("token"),
@@ -200,7 +200,7 @@ export const sendMail = createAsyncThunk<any, { email: any }>(
     try {
       const postData = { email: email };
       const response = await axios.post<any>(
-        "http://localhost:3000/users/send-email",
+        `${process.env.URL_BE}/users/send-email`,
         postData
       );
       return response.data;

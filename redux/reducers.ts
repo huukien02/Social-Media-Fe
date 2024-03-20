@@ -22,7 +22,7 @@ interface ApiState {
   dataUsers: null;
   isUploadImage: null;
   isComment: null;
-  isReaction: null;
+  isReaction: boolean;
   isSendMail: null;
   isCreateUserCsv: null;
   isUserLogin: null;
@@ -37,7 +37,7 @@ const initialState: ApiState = {
   dataUsers: null,
   isUploadImage: null,
   isComment: null,
-  isReaction: null,
+  isReaction: false,
   isSendMail: null,
   isCreateUserCsv: null,
   isUserLogin: null,
@@ -58,6 +58,9 @@ const apiSlice = createSlice({
     },
     clearDataCommentPost: (state) => {
       state.isComment = null;
+    },
+    clearDataReactionPost: (state) => {
+      state.isReaction = false;
     },
   },
   extraReducers: (builder) => {
@@ -153,7 +156,7 @@ const apiSlice = createSlice({
       })
       .addCase(reactionPost.fulfilled, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.isReaction = action.payload;
+        state.isReaction = true;
       })
       .addCase(reactionPost.rejected, (state: any, action: any) => {
         state.loading = false;
@@ -226,5 +229,6 @@ export const {
   clearUserState,
   clearIsCreateUserCsv,
   clearDataCommentPost,
+  clearDataReactionPost,
 } = apiSlice.actions;
 export default apiSlice.reducer;
