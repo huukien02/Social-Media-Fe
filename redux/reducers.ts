@@ -21,7 +21,7 @@ interface ApiState {
   dataUser: null;
   dataUsers: null;
   isUploadImage: null;
-  isComment: null;
+  isComment: boolean;
   isReaction: boolean;
   isSendMail: null;
   isCreateUserCsv: null;
@@ -36,7 +36,7 @@ const initialState: ApiState = {
   dataUser: null,
   dataUsers: null,
   isUploadImage: null,
-  isComment: null,
+  isComment: false,
   isReaction: false,
   isSendMail: null,
   isCreateUserCsv: null,
@@ -57,7 +57,7 @@ const apiSlice = createSlice({
       state.isCreateUserCsv = null;
     },
     clearDataCommentPost: (state) => {
-      state.isComment = null;
+      state.isComment = false;
     },
     clearDataReactionPost: (state) => {
       state.isReaction = false;
@@ -142,7 +142,7 @@ const apiSlice = createSlice({
       })
       .addCase(postComment.fulfilled, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.isComment = action.payload;
+        state.isComment = true;
       })
       .addCase(postComment.rejected, (state: any, action: any) => {
         state.loading = false;

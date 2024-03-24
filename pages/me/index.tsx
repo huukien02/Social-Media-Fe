@@ -96,8 +96,8 @@ function Me() {
         <NotFoundPage />
       ) : (
         <Box sx={style}>
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
+          <Grid container spacing={8} sx={{ justifyContent: "center" }}>
+            <Grid item xs={3}>
               <Box sx={{ border: "1px solid #ccc", borderRadius: 1, p: 2 }}>
                 <Input
                   type="file"
@@ -172,9 +172,9 @@ function Me() {
                 )}
               </Box>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={6}>
               <Box sx={{ border: "1px solid #ccc", borderRadius: 1, p: 2 }}>
-                <Typography variant="h5">Bài Viết</Typography>
+                <Typography variant="h5">My Posts</Typography>
                 <ListPost dataPropsPost={posts} />
               </Box>
             </Grid>

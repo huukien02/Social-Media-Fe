@@ -24,14 +24,12 @@ import { AppDispatch } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { getDataPosts, postComment } from "../redux/actions";
 import { useSelector } from "react-redux";
-import { clearDataReactionPost } from "../redux/reducers";
+import { clearDataCommentPost, clearDataReactionPost } from "../redux/reducers";
 
 function ListPost({ dataPropsPost }: any) {
   const fileInputRef = useRef<any>(null);
   const dispatch: AppDispatch = useDispatch();
-  const { isCreatePost, isComment } = useSelector(
-    (state: any) => state
-  );
+  const { isCreatePost, isComment } = useSelector((state: any) => state);
 
   const [idPostShowComment, setIdPostShowComment] = useState<any>(null);
   const [idCurrentPost, setIdCurrentPost] = useState<any>(null);
@@ -40,6 +38,7 @@ function ListPost({ dataPropsPost }: any) {
   useEffect(() => {
     dispatch(getDataPosts());
     dispatch(clearDataReactionPost());
+    dispatch(clearDataCommentPost());
   }, [dispatch, isCreatePost, isComment]);
 
   useEffect(() => {
@@ -172,6 +171,7 @@ function ListPost({ dataPropsPost }: any) {
                                     padding: 12,
                                     backgroundColor: "lightgray",
                                     marginLeft: "20px",
+                                    cursor: "pointer",
                                   }}
                                 >
                                   {commnent.content}
